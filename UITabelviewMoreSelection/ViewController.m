@@ -59,7 +59,7 @@
 - (void)rightBarItemClick:(UIBarButtonItem *)item{
     if ([item.title isEqualToString:@"编辑"]) {
        
-        item.title = @"取消";
+        item.title = @"完成";
         [self.tableView setEditing:YES animated:YES];
        
     }else{
@@ -118,11 +118,31 @@
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
+//编辑状态的style
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
 }
 
+//编辑状态下，只要实现这个方法，就能实现拖动排序---右侧会出现三条杠，点击三条杠就能拖动
+-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath
+                                                              *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    
+    // 取出要拖动的模型数据
+    model * m = self.dataArray[sourceIndexPath.row];
+    
+    //删除之前行的数据
+    [self.dataArray removeObject:m];
+    
+    // 插入数据到新的位置
+    [self.dataArray insertObject:m
+                         atIndex:destinationIndexPath.row];
+}
+//编辑状态下不缩进
+//- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+//
+//    return NO;
+//}
 
 #pragma mark--getters and stters
 //懒加载tabelview

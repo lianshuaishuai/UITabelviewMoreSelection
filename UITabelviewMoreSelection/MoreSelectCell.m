@@ -53,23 +53,13 @@
         
         if ([control isMemberOfClass:NSClassFromString(@"UITableViewCellEditControl")]){
             
-            for (UIView *v in control.subviews)
-                
-            {
-                if ([v isKindOfClass: [UIImageView class]]) {
-                    
-                    UIImageView *img=(UIImageView *)v;
-                    if (self.selected) {
-                        
-                        img.image=[UIImage imageNamed:@"TDselected"];
-                    }else
-                    {
-                        
-                        img.image=[UIImage imageNamed:@"TDnormal"];
-                    }
-                }
-            }
+           [self setUpChageEditingImage:control andIsEdint:true];
         }
+        //修改右边可以拖动cell的图片
+//        if ([control isMemberOfClass:NSClassFromString(@"UITableViewCellReorderControl")]){
+//
+//            [self setUpChageEditingImage:control andIsEdint:false];
+//        }
     }
     [super layoutSubviews];
 }
@@ -83,21 +73,46 @@
         
         if ([control isMemberOfClass:NSClassFromString(@"UITableViewCellEditControl")]){
             
-            for (UIView *v in control.subviews)
-            {
-                
-                if ([v isKindOfClass: [UIImageView class]]) {
-                    
-                    UIImageView *img=(UIImageView *)v;
-                    if (!self.selected) {
-                        
-                        img.image=[UIImage imageNamed:@"TDnormal"];
-                    }
-                }
-            }
+            [self setUpChageEditingImage:control andIsEdint:true];
         }
+        //修改右边可以拖动cell的图片
+//        if ([control isMemberOfClass:NSClassFromString(@"UITableViewCellReorderControl")]){
+//
+//            [self setUpChageEditingImage:control andIsEdint:false];
+//        }
     }
     
+}
+
+//修改图片
+-(void)setUpChageEditingImage:(UIControl *)control andIsEdint:(BOOL)edit{
+    
+    
+    for (UIView *v in control.subviews)
+    {
+        
+        if ([v isKindOfClass: [UIImageView class]]) {
+            
+            UIImageView *img=(UIImageView *)v;
+            //隐藏图片（为了不缩进）
+            //img.hidden = YES;
+            if (edit) {
+               
+                if (self.selected) {
+                    
+                    img.image=[UIImage imageNamed:@"TDselected"];
+                }else
+                {
+                    
+                    img.image=[UIImage imageNamed:@"TDnormal"];
+                }
+            }else{
+                
+//                 img.image=[UIImage imageNamed:@"TDselected"];
+            }
+           
+        }
+    }
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
